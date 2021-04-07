@@ -1,0 +1,57 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "FreeLook",
+"language": "GDScript",
+"path": "res://Scripts/CameraFreeLook.gd"
+}, {
+"base": "HTTPRequest",
+"class": "HueBridgeDiscovery",
+"language": "GDScript",
+"path": "res://addons/PhilipsHueIntegration/HueBridgeDiscovery.gd"
+}, {
+"base": "Reference",
+"class": "HueHelper",
+"language": "GDScript",
+"path": "res://addons/PhilipsHueIntegration/HueHelper.gd"
+}, {
+"base": "Reference",
+"class": "HueUtils",
+"language": "GDScript",
+"path": "res://addons/PhilipsHueIntegration/HueUtils.gd"
+}, {
+"base": "Reference",
+"class": "JSONBeautifier",
+"language": "GDScript",
+"path": "res://Scripts/Utils/JsonBeautifier.gd"
+} ]
+_global_script_class_icons={
+"FreeLook": "",
+"HueBridgeDiscovery": "",
+"HueHelper": "",
+"HueUtils": "",
+"JSONBeautifier": ""
+}
+
+[application]
+
+config/name="Philips Hue Control"
+run/main_scene="res://Scenes/Main.tscn"
+config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "PhilipsHueIntegration" )
+
+[rendering]
+
+environment/default_environment="res://env.tres"
