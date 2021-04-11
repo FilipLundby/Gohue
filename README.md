@@ -40,7 +40,7 @@ func _on_request_completed(_result, _response_code, _headers, body) -> void:
 
 When you run the game and hit spacebar, you will probably get an error, saying "unauthorized user". Let's fix that.
 
-We need to create a new user. Add another if-statement in the function that user input: 
+We need to create a new user. Add another if-statement in the function that controls user input: 
 
 ```gdscript
 func _unhandled_key_input(event: InputEventKey) -> void:
@@ -55,8 +55,10 @@ Start the game again. Now if you hit C on your keyboard, you'll get another erro
 security measure. The only thing you have to do is to push the button on the Hue Bridge. Now try hitting C again. 
 
 The bridge should now respond with a success message, which also includes your generated username (a string of 
-random characters). Let's copy the username into our script - so we don't have to create a new user every time we run 
-the game (that would be stupid :stuck_out_tongue_closed_eyes:). 
+random characters). 
+
+Now we could copy the username directly into our code (`self.username = "<YOUR-USERNAME>"`), so we wouldn't have to create 
+a new user every time the game runs. But let's take it a step further and load/save the username from a file. 
 
 The full script looks like this: 
 
