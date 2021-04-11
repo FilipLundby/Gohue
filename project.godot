@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/PhilipsHueIntegration/DiscoveryState.gd"
 }, {
-"base": "Spatial",
-"class": "FreeLook",
-"language": "GDScript",
-"path": "res://addons/PhilipsHueIntegration/Examples/CameraFreeLook.gd"
-}, {
 "base": "HTTPRequest",
 "class": "HTTPRequestExtension",
 "language": "GDScript",
@@ -41,7 +36,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DiscoveryState": "",
-"FreeLook": "",
 "HTTPRequestExtension": "",
 "HueBridgeApi": "",
 "HueBridgeDiscovery": "",
@@ -51,7 +45,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Philips Hue Integration"
-run/main_scene="res://Scenes/HueExamples.tscn"
+run/main_scene="res://addons/PhilipsHueIntegration/Examples/Scenes/HueExamples.tscn"
 config/icon="res://icon.png"
 
 [rendering]

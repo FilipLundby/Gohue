@@ -140,7 +140,7 @@ func _ready() -> void:
 	var user: String = HueUtils.load("hue_username.dat")
 	if len(user): self.username = user
 
-func _on_discover_succeded(url_base):
+func _on_discover_succeded(url_base) -> void:
 	self.url_base = url_base
 
 func _on_request_completed(_result, _response_code, _headers, body) -> void:

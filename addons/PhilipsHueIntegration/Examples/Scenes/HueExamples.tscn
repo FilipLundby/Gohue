@@ -1,13 +1,12 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/GroupInfo.gd" type="Script" id=1]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/ColorPicker.gd" type="Script" id=2]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/LightInfo.gd" type="Script" id=3]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/CameraFreeLook.gd" type="Script" id=4]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/LightToggle.gd" type="Script" id=5]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/GroupToggle.gd" type="Script" id=6]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/CreateUser.gd" type="Script" id=7]
-[ext_resource path="res://addons/PhilipsHueIntegration/Examples/BridgeDiscoveryStatus.gd" type="Script" id=8]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/LightInfo.gd" type="Script" id=1]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/ColorPicker.gd" type="Script" id=2]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/GroupInfo.gd" type="Script" id=3]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/CreateUser.gd" type="Script" id=5]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/LightToggle.gd" type="Script" id=6]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/GroupToggle.gd" type="Script" id=7]
+[ext_resource path="res://addons/PhilipsHueIntegration/Examples/Scripts/BridgeDiscoveryStatus.gd" type="Script" id=8]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -43,15 +42,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Player" type="Spatial" parent="."]
-script = ExtResource( 4 )
-
-[node name="Camera" type="Camera" parent="Player"]
-
-[node name="RayCast" type="RayCast" parent="Player"]
-enabled = true
-cast_to = Vector3( 0, 0, -1 )
-
 [node name="Red" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -8 )
 
@@ -86,7 +76,7 @@ material/0 = null
 transform = Transform( 0.282585, 0.209359, 0.936117, -0.763129, 0.640342, 0.0871557, -0.581188, -0.739007, 0.340719, 0, 10, 0 )
 
 [node name="CreateUser" type="HTTPRequest" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 [node name="HueBridgeDiscovery" type="HTTPRequest" parent="."]
 script = ExtResource( 8 )
@@ -95,13 +85,13 @@ script = ExtResource( 8 )
 script = ExtResource( 2 )
 
 [node name="LightToggle" type="HTTPRequest" parent="."]
-script = ExtResource( 5 )
-
-[node name="LightInfo" type="HTTPRequest" parent="."]
-script = ExtResource( 3 )
-
-[node name="GroupToggle" type="HTTPRequest" parent="."]
 script = ExtResource( 6 )
 
-[node name="GroupInfo" type="HTTPRequest" parent="."]
+[node name="LightInfo" type="HTTPRequest" parent="."]
 script = ExtResource( 1 )
+
+[node name="GroupToggle" type="HTTPRequest" parent="."]
+script = ExtResource( 7 )
+
+[node name="GroupInfo" type="HTTPRequest" parent="."]
+script = ExtResource( 3 )
