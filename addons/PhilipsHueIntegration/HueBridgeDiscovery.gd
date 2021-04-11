@@ -60,7 +60,7 @@ func start():
 	_attempt = 0
 	_state = DiscoveryState.states.DISCOVERING
 	_udp = PacketPeerUDP.new()
-	emit_signal("bridge_discover_status", _state)
+	emit_signal("discover_status", _state)
 	# Send package
 	var set_address_status = _udp.set_dest_address(_broadcast_ip, _broadcast_port)
 	if _debug: print_debug("Set address ... ", HueUtils.get_error_message(set_address_status)) 
@@ -106,7 +106,7 @@ func _process(_delta):
 			_state = DiscoveryState.states.VALIDATING
 			if _debug: print_debug("Validating bridge at ", location)
 			http_get(location, ["Content-Type: application/xml"])
-			emit_signal("bridge_discover_status", _state)
+			emit_signal("discover_status", _state)
 
 
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
@@ -125,17 +125,17 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 		else:
 			url_base = url_base.replace("https:", "http:")
 		if _debug: print_debug("Connected to ", url_base)
-		emit_signal("bridge_discover_succeded", url_base)
+		emit_signal("discover_succeded", url_base)
 	else:
 		_attempt += 1
 		if _attempt >= _max_attempts:
 			_state = DiscoveryState.states.FAILED
 			if _debug: print_debug("Connection failed.")
-			emit_signal("bridge_discover_status", _state)
+			emit_signal("discover_status", _state)
 		else:
 			_state = DiscoveryState.states.RETRY
 			if _debug: print_debug("Retrying. Attempt #", _attempt, " ...")
-			emit_signal("bridge_discover_status", _state)
+			emit_signal("discover_status", _state)
 
 
 func _get_xml_property(xml: String, key: String) -> String:

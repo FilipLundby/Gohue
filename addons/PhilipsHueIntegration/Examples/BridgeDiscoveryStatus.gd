@@ -40,7 +40,7 @@ func _on_discover_status(status):
 			_text_edit.text += "Unknown error occured: %s\n" % status
 
 
-func _on_bridge_discover_succeded(url_base):
+func _on_discover_succeded(url_base):
 	_text_edit.text += "Success! Connected to %s\n" % url_base
 	HueUtils.save("hue_url.dat", url_base)
 
