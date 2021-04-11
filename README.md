@@ -217,7 +217,7 @@ Found an issue? [Please let me know](https://twitter.com/messages/compose?recipi
 <a name="license"></a>
 ## MIT License
 
-Copyright (c) 2020 Filip Lundby
+Copyright (c) 2021 Filip Lundby
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
