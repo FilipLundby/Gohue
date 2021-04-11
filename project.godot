@@ -50,7 +50,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Philips Hue Control"
+config/name="Philips Hue Integration"
 run/main_scene="res://Scenes/HueExamples.tscn"
 config/icon="res://icon.png"
 
