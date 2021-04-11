@@ -3,6 +3,8 @@
 * [Getting Started](#getting_started)
 * [Hue Bridge Discovery](#hue_bridge_discovery)
 * [API Reference](#api_reference)
+* [Bugs](#bugs)
+* [License](#license)
 
 
 <a name="getting_started"></a>
@@ -152,14 +154,19 @@ func _on_request_completed(_result, _response_code, _headers, body) -> void:
 <a name="api_reference"></a>
 ## API Reference
 
+### Create user
+
+```gdscript
+self.create_user("raspberry_pi#godotter")
+```
 
 ### Manage a light
 
 ```gdscript
 self.set_light(1, { "on": true })
 self.set_light_color(1, Color(1, 0, 0), 120, true)
-self.set_light_effect(1, "colorloop") 					# Built-in effect. Can be either "colorloop" or "none"
-self.set_light_alert(1, "select") 						# Built-in alert. Can be either "select" or "lselect"
+self.set_light_effect(1, "colorloop")                 # Built-in effect. Can be either "colorloop" or "none"
+self.set_light_alert(1, "select")                     # Built-in alert. Can be either "select" or "lselect"
 ```
 
 ### Set light state directly
@@ -177,8 +184,8 @@ self.set_light(1, {
 ```gdscript
 self.set_group(1, { "on": true })
 self.set_group_color(1, Color(1, 0, 0), 120, true)
-self.set_group_effect(1, "colorloop") 					# Built-in effect. Can be either "colorloop" or "none"
-self.set_group_alert(1, "select") 						# Built-in alert. Can be either "select" or "lselect"
+self.set_group_effect(1, "colorloop")                 # Built-in effect. Can be either "colorloop" or "none"
+self.set_group_alert(1, "select")                     # Built-in alert. Can be either "select" or "lselect"
 ```
 
 ### Set group state directly
@@ -193,8 +200,39 @@ self.set_group(1, {
 ### Get info
 
 ```gdscript
-self.get_data()		# Get all available data
-self.get_light(1)	# Get data related to light #1
-self.get_group(1)	# Get data related to group #1
+self.get_data()     # Get all available data
+self.get_config()   # Get config data only
+self.get_light(1)   # Get data related to light #1
+self.get_group(1)   # Get data related to group #1
 ```
 
+
+
+<a name="bugs"></a>
+## Bugs
+
+Found an issue? [Please let me know](https://twitter.com/messages/compose?recipient_id=259365053).
+
+
+<a name="license"></a>
+## MIT License
+
+Copyright (c) 2020 Filip Lundby
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
