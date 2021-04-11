@@ -23,16 +23,21 @@ func _ready():
 
 
 func _on_discover_status(status):
-	var msg = [
-		"Bridge discovery started. Please wait ...\n",
-		"Host found ...\n",
-		"Failed to discovery bridge. Retrying ...\n",
-		"Validating hue bridge ...\n",
-		"Connected!\n",
-		"Failed to connect.\n",
-	]
-	var has_index: bool = msg.size() > status
-	_text_edit.text += msg[status] if has_index else "Status code: %s\n" % status
+	match status:
+		DiscoveryState.states.DISCOVERING:
+			_text_edit.text += "Bridge discovery started. Please wait ...\n"
+		DiscoveryState.states.HOST_FOUND:
+			_text_edit.text += "Host found ...\n"
+		DiscoveryState.states.FAILED:
+			_text_edit.text += "Failed to connect.\n"
+		DiscoveryState.states.RETRY:
+			_text_edit.text += "Failed to discovery bridge. Retrying ...\n"
+		DiscoveryState.states.VALIDATING:
+			_text_edit.text += "Validating hue bridge ...\n"
+		DiscoveryState.states.CONNECTED:
+			_text_edit.text += "Connected!\n"
+		_: # Fallback
+			_text_edit.text += "Unknown error occured: %s\n" % status
 
 
 func _on_bridge_discover_succeded(url_base):

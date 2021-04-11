@@ -23,16 +23,8 @@ func get_ssl():
 func get_url_base():
 	return url_base
 
-var udp: PacketPeerUDP
-enum _states {
-	DISCOVERING,
-	HOST_FOUND,
-	RETRY,
-	VALIDATING,
-	CONNECTED,
-	FAILED
-}
-var _state
+var _udp: PacketPeerUDP
+var _state: int
 var _attempt: int = 0
 
 
@@ -44,18 +36,18 @@ func _ready():
 func start():
 	# Reset
 	_attempt = 0
-	_state = _states.DISCOVERING
-	udp = PacketPeerUDP.new()
+	_state = DiscoveryState.states.DISCOVERING
+	_udp = PacketPeerUDP.new()
 	emit_signal("bridge_discover_status", _state)
 	# Send package
-	var set_address_status = udp.set_dest_address(_broadcast_ip, _broadcast_port)
+	var set_address_status = _udp.set_dest_address(_broadcast_ip, _broadcast_port)
 	if _debug: print_debug("Set address ... ", HueUtils.get_error_message(set_address_status)) 
 	# Alright stop, collaborate and listen 
 	var interface = _get_valid_interface()
 	if len(interface):
-		var listen_status = udp.listen(_broadcast_port)
+		var listen_status = _udp.listen(_broadcast_port)
 		if _debug: print_debug("Listening ... ",  HueUtils.get_error_message(listen_status))
-		var multicast_status = udp.join_multicast_group(_broadcast_ip, interface.name)
+		var multicast_status = _udp.join_multicast_group(_broadcast_ip, interface.name)
 		if _debug: print_debug("Multicast ... ",  HueUtils.get_error_message(multicast_status))
 
 
@@ -72,24 +64,24 @@ func _get_valid_interface() -> Array:
 
 
 func _process(_delta):
-	if _state == _states.FAILED or udp == null: return
+	if _state == DiscoveryState.states.FAILED or _udp == null: return
 	
-	if (_state == _states.DISCOVERING or 
-		_state == _states.RETRY):
+	if (_state == DiscoveryState.states.DISCOVERING or 
+		_state == DiscoveryState.states.RETRY):
 		# Try to contact server
 # warning-ignore:return_value_discarded
-		udp.put_packet("...".to_ascii())
+		_udp.put_packet("...".to_ascii())
 
-	if (_state != _states.VALIDATING and 
-		_state != _states.CONNECTED and 
-		udp.get_available_packet_count() > 0):
+	if (_state != DiscoveryState.states.VALIDATING and 
+		_state != DiscoveryState.states.CONNECTED and 
+		_udp.get_available_packet_count() > 0):
 		# Determine whether response is from Hue Bridge
-		_state = _states.HOST_FOUND
-		var response: String = udp.get_packet().get_string_from_utf8()
+		_state = DiscoveryState.states.HOST_FOUND
+		var response: String = _udp.get_packet().get_string_from_utf8()
 #		if _debug: print_debug("Found bridge ...")
 		var location = _get_header_property(response, "location")
 		if len(location) > 0:
-			_state = _states.VALIDATING
+			_state = DiscoveryState.states.VALIDATING
 			if _debug: print_debug("Validating bridge at ", location)
 			http_get(location, ["Content-Type: application/xml"])
 			emit_signal("bridge_discover_status", _state)
@@ -104,7 +96,7 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 	var model_name: String = _get_xml_property(xml, "modelName")
 	if is_xml and _model_name in model_name.to_lower():
 		# If model name was found - keep it! 
-		_state = _states.CONNECTED
+		_state = DiscoveryState.states.CONNECTED
 		url_base = _get_xml_property(xml, "URLBase")
 		if ssl:
 			url_base = url_base.replace("http:", "https:")
@@ -115,11 +107,11 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 	else:
 		_attempt += 1
 		if _attempt >= _max_attempts:
-			_state = _states.FAILED
+			_state = DiscoveryState.states.FAILED
 			if _debug: print_debug("Connection failed.")
 			emit_signal("bridge_discover_status", _state)
 		else:
-			_state = _states.RETRY
+			_state = DiscoveryState.states.RETRY
 			if _debug: print_debug("Retrying. Attempt #", _attempt, " ...")
 			emit_signal("bridge_discover_status", _state)
 
