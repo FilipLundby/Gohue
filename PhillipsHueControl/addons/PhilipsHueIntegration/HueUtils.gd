@@ -1,7 +1,7 @@
 class_name HueUtils
 
 
-static func save(filename: String = "hue_data.dat", content: String = "") -> void:
+static func save(filename: String, content: String = "") -> void:
 	var file = File.new()
 	var filepath = "user://%s" % filename
 	file.open(filepath, File.WRITE)
@@ -9,7 +9,7 @@ static func save(filename: String = "hue_data.dat", content: String = "") -> voi
 	file.close()
 
 
-static func load(filename: String = "hue_data.dat") -> String:
+static func load(filename: String) -> String:
 	var file = File.new()
 	var filepath = "user://%s" % filename
 	if !file.file_exists(filepath): return ""

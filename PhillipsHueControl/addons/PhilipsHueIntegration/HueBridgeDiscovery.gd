@@ -2,9 +2,8 @@ extends HTTPRequestExtension
 
 class_name HueBridgeDiscovery
 
-signal bridge_discover_status
-signal bridge_discover_succeded
-signal bridge_request_completed
+signal discover_status
+signal discover_succeded
 
 export(int) var _max_attempts: int = 3
 export(bool) var ssl: bool = false setget ,get_ssl

@@ -9,10 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "DiscoveryState",
+"language": "GDScript",
+"path": "res://addons/PhilipsHueIntegration/DiscoveryState.gd"
+}, {
 "base": "Spatial",
 "class": "FreeLook",
 "language": "GDScript",
-"path": "res://Scripts/CameraFreeLook.gd"
+"path": "res://addons/PhilipsHueIntegration/Examples/CameraFreeLook.gd"
 }, {
 "base": "HTTPRequest",
 "class": "HTTPRequestExtension",
@@ -30,39 +35,24 @@ _global_script_classes=[ {
 "path": "res://addons/PhilipsHueIntegration/HueBridgeDiscovery.gd"
 }, {
 "base": "Reference",
-"class": "HueHelper",
-"language": "GDScript",
-"path": "res://addons/PhilipsHueIntegration/HueHelper.gd"
-}, {
-"base": "Reference",
 "class": "HueUtils",
 "language": "GDScript",
 "path": "res://addons/PhilipsHueIntegration/HueUtils.gd"
-}, {
-"base": "Reference",
-"class": "JSONBeautifier",
-"language": "GDScript",
-"path": "res://Scripts/Utils/JsonBeautifier.gd"
 } ]
 _global_script_class_icons={
+"DiscoveryState": "",
 "FreeLook": "",
 "HTTPRequestExtension": "",
 "HueBridgeApi": "",
 "HueBridgeDiscovery": "",
-"HueHelper": "",
-"HueUtils": "",
-"JSONBeautifier": ""
+"HueUtils": ""
 }
 
 [application]
 
 config/name="Philips Hue Control"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/HueExamples.tscn"
 config/icon="res://icon.png"
-
-[editor_plugins]
-
-enabled=PoolStringArray( "PhilipsHueIntegration" )
 
 [rendering]
 

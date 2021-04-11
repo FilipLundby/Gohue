@@ -1,8 +1,6 @@
-extends Node
+extends HueBridgeDiscovery
 
-onready var _hue_discovery: HueBridgeDiscovery = get_parent()
-
-export(NodePath) var _text_edit_path: NodePath = "../../TextEdit"
+export(NodePath) var _text_edit_path: NodePath = "../TextEdit"
 
 var _text_edit: TextEdit
 
@@ -15,16 +13,16 @@ func _ready():
 	var url: String = HueUtils.load("hue_url.dat")
 	# Don't try to discover Hue Bridge, if URL was specified
 	if !len(url) or !url.begins_with("http"):
-		_text_edit.text += "Looking for Hue Bridge. Please wait ..."
-		_hue_discovery.start()
+		_text_edit.text += "Looking for Hue Bridge. Please wait ...\n"
+		self.start()
 
 # warning-ignore:return_value_discarded
-	_hue_discovery.connect("bridge_discover_status", self, "_on_bridge_discover_status")
+	self.connect("discover_status", self, "_on_discover_status")
 # warning-ignore:return_value_discarded
-	_hue_discovery.connect("bridge_discover_succeded", self, "_on_bridge_discover_succeded")
+	self.connect("discover_succeded", self, "_on_discover_succeded")
 
 
-func _on_bridge_discover_status(status):
+func _on_discover_status(status):
 	var msg = [
 		"Bridge discovery started. Please wait ...\n",
 		"Host found ...\n",
