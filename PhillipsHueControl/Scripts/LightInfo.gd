@@ -1,17 +1,11 @@
 extends Node
 
-onready var _hue_connection: HueBridgeDiscovery = get_parent()
-
-var _hue_helper: HueHelper
-
-
-func _ready():
-	_hue_helper = HueHelper.new(_hue_connection)
+onready var _hue_api: HueBridgeApi = get_parent()
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
 	if !event.pressed: return
 	if event.scancode == KEY_1:
-		_hue_helper.get_data()
+		_hue_api.get_data()
 	if event.scancode == KEY_2:
-		_hue_helper.get_light(1)
+		_hue_api.get_light(1)

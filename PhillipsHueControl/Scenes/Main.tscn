@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/LightToggle.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/CreateUser.gd" type="Script" id=2]
@@ -8,7 +8,9 @@
 [ext_resource path="res://Scripts/ColorPicker.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/GroupInfo.gd" type="Script" id=7]
 [ext_resource path="res://addons/PhilipsHueIntegration/HueBridgeDiscovery.gd" type="Script" id=8]
-[ext_resource path="res://Scripts/BridgeStatus.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/BridgeDiscoveryStatus.gd" type="Script" id=9]
+[ext_resource path="res://addons/PhilipsHueIntegration/HueBridgeApi.gd" type="Script" id=10]
+[ext_resource path="res://Scripts/BridgeApiStatus.gd" type="Script" id=11]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -87,28 +89,31 @@ material/0 = null
 transform = Transform( 0.282585, 0.209359, 0.936117, -0.763129, 0.640342, 0.0871557, -0.581188, -0.739007, 0.340719, 0, 10, 0 )
 
 [node name="HueBridgeApi" type="HTTPRequest" parent="."]
+script = ExtResource( 10 )
+
+[node name="_BridgeApiStatus" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 11 )
+
+[node name="_CreateUser" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 2 )
+
+[node name="_ColorPicker" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 6 )
+
+[node name="_LightInfo" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 5 )
+
+[node name="_LightToggle" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 1 )
+
+[node name="_GroupInfo" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 7 )
+
+[node name="_GroupToggle" type="Node" parent="HueBridgeApi"]
+script = ExtResource( 4 )
 
 [node name="HueBridgeDiscovery" type="HTTPRequest" parent="."]
 script = ExtResource( 8 )
-_debug = false
 
-[node name="_BridgeStatus" type="Node" parent="HueBridgeDiscovery"]
+[node name="_BridgeDiscoveryStatus" type="Node" parent="HueBridgeDiscovery"]
 script = ExtResource( 9 )
-
-[node name="_CreateUser" type="Node" parent="HueBridgeDiscovery"]
-script = ExtResource( 2 )
-
-[node name="_ColorPicker" type="Node" parent="HueBridgeDiscovery"]
-script = ExtResource( 6 )
-
-[node name="_LightInfo" type="Node" parent="HueBridgeDiscovery"]
-script = ExtResource( 5 )
-
-[node name="_LightToggle" type="Node" parent="HueBridgeDiscovery"]
-script = ExtResource( 1 )
-
-[node name="_GroupInfo" type="Node" parent="HueBridgeDiscovery"]
-script = ExtResource( 7 )
-
-[node name="_GroupToggle" type="Node" parent="HueBridgeDiscovery"]
-script = ExtResource( 4 )

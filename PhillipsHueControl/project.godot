@@ -15,6 +15,16 @@ _global_script_classes=[ {
 "path": "res://Scripts/CameraFreeLook.gd"
 }, {
 "base": "HTTPRequest",
+"class": "HTTPRequestExtension",
+"language": "GDScript",
+"path": "res://addons/PhilipsHueIntegration/HTTPRequestExtension.gd"
+}, {
+"base": "HTTPRequestExtension",
+"class": "HueBridgeApi",
+"language": "GDScript",
+"path": "res://addons/PhilipsHueIntegration/HueBridgeApi.gd"
+}, {
+"base": "HTTPRequestExtension",
 "class": "HueBridgeDiscovery",
 "language": "GDScript",
 "path": "res://addons/PhilipsHueIntegration/HueBridgeDiscovery.gd"
@@ -36,6 +46,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "FreeLook": "",
+"HTTPRequestExtension": "",
+"HueBridgeApi": "",
 "HueBridgeDiscovery": "",
 "HueHelper": "",
 "HueUtils": "",

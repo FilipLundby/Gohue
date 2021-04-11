@@ -1,4 +1,4 @@
-extends HTTPRequest
+extends HTTPRequestExtension
 
 class_name HueBridgeDiscovery
 
@@ -14,19 +14,15 @@ export(bool) var ssl: bool = false setget ,get_ssl
 export(String) var _model_name: String = "philips hue bridge"
 export(String) var _broadcast_ip: String = "239.255.255.250"
 export(int) var _broadcast_port: int = 1900
-export(bool) var _debug: bool = true
+export(bool) var _debug: bool = false
 
 var url_base: String setget ,get_url_base
-var username: String = "ZraN4DSWTclqGJOhz2USpG7aubIB2WEoKlsHuLMZ" setget ,get_username
 
 func get_ssl():
 	return ssl
 
 func get_url_base():
 	return url_base
-
-func get_username():
-	return username
 
 var udp: PacketPeerUDP
 enum _states {
@@ -46,12 +42,7 @@ func _ready():
 	connect("request_completed", self, "_on_request_completed")
 
 
-func start(url: String = "", user: String = ""):
-	# Don't try to discover Hue Bridge, if url_base was specified
-	if len(url):
-		url_base = url
-		_state = _states.CONNECTED
-		return
+func start():
 	# Reset
 	_attempt = 0
 	_state = _states.DISCOVERING
@@ -59,14 +50,14 @@ func start(url: String = "", user: String = ""):
 	emit_signal("bridge_discover_status", _state)
 	# Send package
 	var set_address_status = udp.set_dest_address(_broadcast_ip, _broadcast_port)
-	if _debug: print_debug("Set address ... ", status_code[set_address_status])
+	if _debug: print_debug("Set address ... ", HueUtils.get_error_message(set_address_status)) 
 	# Alright stop, collaborate and listen 
 	var interface = _get_valid_interface()
 	if len(interface):
 		var listen_status = udp.listen(_broadcast_port)
-		if _debug: print_debug("Listening ... ", status_code[listen_status])
+		if _debug: print_debug("Listening ... ",  HueUtils.get_error_message(listen_status))
 		var multicast_status = udp.join_multicast_group(_broadcast_ip, interface.name)
-		if _debug: print_debug("Multicast ... ", status_code[multicast_status])
+		if _debug: print_debug("Multicast ... ",  HueUtils.get_error_message(multicast_status))
 
 
 func _get_valid_interface() -> Array:
@@ -82,7 +73,7 @@ func _get_valid_interface() -> Array:
 
 
 func _process(_delta):
-	if _state == _states.FAILED: return
+	if _state == _states.FAILED or udp == null: return
 	
 	if (_state == _states.DISCOVERING or 
 		_state == _states.RETRY):
@@ -106,13 +97,6 @@ func _process(_delta):
 
 
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
-	var is_json: bool = "Content-Type: application/json" in headers
-	# If headers returns JSON - it's probably 
-	# an API reponse, therefore the signal is forwarded
-	if is_json: 
-		emit_signal("bridge_request_completed", result, response_code, headers, body)
-		return
-
 	# If headers returns XML - it's probably
 	# bridge broadcast response. Look at the data
 	# to see if it contains the model name ("philips hue bridge") 
@@ -159,81 +143,3 @@ func _get_header_property(haystack: String, key: String) -> String:
 				return line.substr( colon_position + 1 ).strip_edges()
 	return ""
 
-
-func _request(url: String, data_to_send: Dictionary, method=HTTPClient.METHOD_PUT, headers:Array=["Content-Type: application/json"], use_ssl:bool=false) -> void:
-	if !url.begins_with("http"): 
-		printerr("Could not send request to Hue Bridge. Maybe it's not ready yet.")
-		return 
-	# Convert data to json string:
-	var query = JSON.print(data_to_send)
-	var request_status = request(url, headers, use_ssl, method, query)	
-	if _debug: print_debug("Request to ", url, " ... ", status_code[request_status])
-
-
-func http_post(url, data_to_send: Dictionary, headers:Array=["Content-Type: application/json"], use_ssl:bool=false) -> void:
-	_request(url, data_to_send, HTTPClient.METHOD_POST, headers, use_ssl)
-
-
-func http_put(url, data_to_send: Dictionary, headers:Array=["Content-Type: application/json"], use_ssl:bool=false) -> void:
-	_request(url, data_to_send, HTTPClient.METHOD_PUT, headers, use_ssl)
-
-
-func http_get(url, headers:Array=["Content-Type: application/json"], use_ssl:bool=false) -> void:
-	_request(url, {}, HTTPClient.METHOD_GET, headers, use_ssl)
-
-
-func http_delete(url, headers:Array=["Content-Type: application/json"], use_ssl:bool=false) -> void:
-	_request(url, {}, HTTPClient.METHOD_DELETE, headers, use_ssl)
-
-
-var status_code: Array = [
-	"OK",
-	"Generic error.",
-	"Unavailable error.",
-	"Unconfigured error.",
-	"Unauthorized error.",
-	"Parameter range error.",
-	"Out of memory (OOM) error.",
-	"File: Not found error.",
-	"File: Bad drive error.",
-	"File: Bad path error.",
-	"File: No permission error.",
-	"File: Already in use error.",
-	"File: Can't open error.",
-	"File: Can't write error.",
-	"File: Can't read error.",
-	"File: Unrecognized error.",
-	"File: Corrupt error.",
-	"File: Missing dependencies error.",
-	"File: End of file (EOF) error.",
-	"Can't open error.",
-	"Can't create error.",
-	"Query failed error.",
-	"Already in use error.",
-	"Locked error.",
-	"Timeout error.",
-	"Can't connect error.",
-	"Can't resolve error.",
-	"Connection error.",
-	"Can't acquire resource error.",
-	"Can't fork process error.",
-	"Invalid data error.",
-	"Invalid parameter error.",
-	"Already exists error.",
-	"Does not exist error.",
-	"Database: Read error.",
-	"Database: Write error.",
-	"Compilation failed error.",
-	"Method not found error.",
-	"Linking failed error.",
-	"Script failed error.",
-	"Cycling link (import cycle) error.",
-	"Invalid declaration error.",
-	"Duplicate symbol error.",
-	"Parse error.",
-	"Busy error.",
-	"Skip error.",
-	"Help error.",
-	"Bug error.",
-	"Printer on fire error.", # (This is an easter egg, no engine methods return this error code.)
-]
