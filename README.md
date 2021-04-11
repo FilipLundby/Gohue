@@ -3,7 +3,7 @@
 * [Getting Started](#getting_started)
 * [Hue Bridge Discovery](#hue_bridge_discovery)
 * [API Reference](#api_reference)
-* [Bugs](#bugs)
+* [About](#about)
 * [License](#license)
 
 
@@ -208,10 +208,10 @@ self.get_group(1)   # Get data related to group #1
 
 
 
-<a name="bugs"></a>
-## Bugs
+<a name="about"></a>
+## About
 
-Found an issue? [Please let me know](https://twitter.com/messages/compose?recipient_id=259365053).
+Hi I'm Filip and I made this. [Catch me on Twitter](https://twitter.com/skooterkurt).
 
 
 <a name="license"></a>
