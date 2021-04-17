@@ -29,7 +29,7 @@ albedo_color = Color( 0, 0.0392157, 1, 1 )
 [sub_resource type="CubeMesh" id=7]
 material = SubResource( 6 )
 
-[node name="Base" type="Node"]
+[node name="HueExamples" type="Node"]
 
 [node name="TextEdit" type="TextEdit" parent="."]
 anchor_right = 1.0
